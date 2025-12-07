@@ -27,7 +27,6 @@ export default async function DiscoverPage() {
                     Explorez et découvrez tous les prompts disponibles
                 </p>
             </div>
-
             <PromptGallery prompts={result.data || []} />
         </div>
     );

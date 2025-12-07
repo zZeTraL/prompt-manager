@@ -36,6 +36,9 @@
             // actions
             "@/actions/*": ["./src/actions/*"],
 
+            // store
+            "@/store/*": ["./src/store/*"],
+
             // ui
             "@/ui/*": ["./src/components/ui/*"]
         }

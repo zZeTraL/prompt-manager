@@ -1,17 +1,17 @@
 "use client";
 
-import { Badge } from "@/src/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/src/components/ui/card";
-import { Separator } from "@/src/components/ui/separator";
-import { Skeleton } from "@/src/components/ui/skeleton";
-import { usePromptStore } from "@/src/store/PromptStore";
-import { Prompt } from "@/src/types/prompt";
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Skeleton } from "@/components/ui/skeleton";
+import { usePromptStore } from "@/store/PromptStore";
+import { Prompt } from "@/types/prompt";
 import {
     Calendar,
     CheckCircle2,

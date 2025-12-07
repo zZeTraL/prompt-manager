@@ -1,6 +1,6 @@
 "use client";
 
-import { Prompt } from "@/src/types/prompt";
+import { Prompt } from "@/types/prompt";
 import Link from "next/link";
 import { PromptCard } from "./PromptCard";
 

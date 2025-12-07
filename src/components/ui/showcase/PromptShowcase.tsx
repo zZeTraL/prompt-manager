@@ -1,4 +1,4 @@
-import { usePromptStore } from "@/src/store/PromptStore";
+import { usePromptStore } from "@/store/PromptStore";
 import { FileText, PlusCircle } from "lucide-react";
 import { Button } from "../button";
 import { Card, CardContent } from "../card";

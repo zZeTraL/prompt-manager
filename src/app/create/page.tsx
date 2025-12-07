@@ -1,18 +1,18 @@
 "use client";
 
-import { Badge } from "@/src/components/ui/badge";
-import { Button } from "@/src/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
     CardDescription,
     CardHeader,
     CardTitle,
-} from "@/src/components/ui/card";
-import { Input } from "@/src/components/ui/input";
-import { Separator } from "@/src/components/ui/separator";
-import { usePromptStore } from "@/src/store/PromptStore";
-import { Prompt } from "@/src/types/prompt";
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { usePromptStore } from "@/store/PromptStore";
+import { Prompt } from "@/types/prompt";
 import {
     AlignLeft,
     FileText,

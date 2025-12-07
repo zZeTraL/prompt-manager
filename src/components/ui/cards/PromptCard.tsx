@@ -7,7 +7,7 @@ import {
     CardTitle,
 } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Prompt } from "@/src/types/prompt";
+import { Prompt } from "@/types/prompt";
 import { Calendar, Tag, User } from "lucide-react";
 
 interface PromptCardProps {

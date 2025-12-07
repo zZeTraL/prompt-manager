@@ -5,7 +5,7 @@ import {
     fetchAllPrompts,
     fetchPromptById,
 } from "@/database/function";
-import { Prompt } from "../types/prompt";
+import { Prompt } from "@/types/prompt";
 
 export async function getPrompts() {
     try {
