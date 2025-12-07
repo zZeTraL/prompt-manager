@@ -1,0 +1,22 @@
+**/.terraform/*
+
+# .tfstate files (contiennent l'état de votre infra)
+*.tfstate
+*.tfstate.*
+
+# Crash log files
+crash.log
+crash.*.log
+
+# Override
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# CLI configuration files
+.terraformrc
+terraform.rc
+
+# Lock file (optionnel - certains le commitent)
+.terraform.lock.hcl
