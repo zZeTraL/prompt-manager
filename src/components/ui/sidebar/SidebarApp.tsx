@@ -40,7 +40,7 @@ export default function SidebarApp() {
                             </SidebarMenuItem>
                             <SidebarMenuItem>
                                 <SidebarMenuButton asChild>
-                                    <Link href="/search">
+                                    <Link href="/discover">
                                         <Search className="h-4 w-4" />
                                         <span>Découvrir</span>
                                     </Link>

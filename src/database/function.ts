@@ -1,58 +1,5 @@
 import { getCosmosContainer } from "@/database/cosmos";
-import { CreatePromptSchema, PromptSchema, type Prompt } from "@/types/prompt";
-import { v4 as uuidv4 } from "uuid";
-import { z } from "zod";
-
-// Create a new prompt
-async function createPrompt(
-    data: z.infer<typeof CreatePromptSchema>,
-): Promise<Prompt> {
-    const now = new Date().toISOString();
-
-    const prompt: Prompt = {
-        ...data,
-        id: uuidv4(),
-        type: "prompt",
-        versionHistory: data.versionHistory || [],
-        isLatest: true,
-        status: data.status || "draft",
-        tags: data.tags || [],
-        createdAt: now,
-        updatedAt: now,
-    };
-
-    // Validate with Zod
-    const validated = PromptSchema.parse(prompt);
-
-    try {
-        const container = getCosmosContainer();
-        const { resource } = await container.items.create(validated);
-
-        return resource as Prompt;
-    } catch (error: unknown) {
-        if (error instanceof Error) {
-            const cosmosError = error as Error & {
-                code?: number;
-                retryAfterInMs?: number;
-                diagnostics?: unknown;
-            };
-
-            // Handle 429 rate limiting
-            if (cosmosError.code === 429) {
-                console.log(
-                    `Rate limited. Retry after: ${cosmosError.retryAfterInMs}ms`,
-                );
-            }
-
-            // Log diagnostics for troubleshooting
-            console.error(
-                "Cosmos DB error diagnostics:",
-                cosmosError.diagnostics,
-            );
-        }
-        throw error;
-    }
-}
+import { type Prompt } from "@/types/prompt";
 
 // Retrieve all prompts
 async function fetchAllPrompts(): Promise<Prompt[]> {
@@ -72,4 +19,37 @@ async function fetchAllPrompts(): Promise<Prompt[]> {
     return resources;
 }
 
-export { fetchAllPrompts };
+async function fetchPromptById(id: string): Promise<Prompt | null> {
+    const container = getCosmosContainer();
+    const querySpec = {
+        query: "SELECT * FROM c WHERE c.type = @type AND c.id = @id",
+        parameters: [
+            {
+                name: "@type",
+                value: "prompt",
+            },
+            {
+                name: "@id",
+                value: id,
+            },
+        ],
+    };
+    const { resources } = await container.items
+        .query<Prompt>(querySpec)
+        .fetchAll();
+    return resources.length > 0 ? resources[0] : null;
+}
+
+async function createPrompt(prompt: Prompt): Promise<Prompt> {
+    const container = getCosmosContainer();
+    const { resource } = await container.items.create<Prompt>({
+        ...prompt,
+        type: "prompt",
+    });
+    if (!resource) {
+        throw new Error("Failed to create prompt");
+    }
+    return resource;
+}
+
+export { createPrompt, fetchAllPrompts, fetchPromptById };

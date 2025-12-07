@@ -1,4 +1,4 @@
-import { getPrompts } from "@/actions/prompts";
+import { createNewPrompt, getPromptById, getPrompts } from "@/actions/prompts";
 import { Prompt } from "@/types/prompt";
 import { create } from "zustand";
 
@@ -6,6 +6,8 @@ type PromptStore = {
     prompts: Prompt[];
     init: () => Promise<boolean>;
     fetchAllPrompts: () => Promise<void>;
+    fetchPromptById: (id: string) => Promise<Prompt | null>;
+    createNewPrompt: (promptData: Prompt) => Promise<Prompt | null>;
 };
 
 export const usePromptStore = create<PromptStore>((set) => ({
@@ -28,5 +30,25 @@ export const usePromptStore = create<PromptStore>((set) => ({
             console.info("Fetched prompts:", result.data);
             set({ prompts: result.data || [] });
         }
+    },
+
+    fetchPromptById: async (id: string) => {
+        const result = await getPromptById(id);
+        if (result.success) {
+            return result.data || null;
+        }
+        return null;
+    },
+
+    createNewPrompt: async (promptData: Prompt) => {
+        const result = await createNewPrompt(promptData);
+        if (result.success) {
+            // Update the prompts list in the store
+            set((state) => ({
+                prompts: [...state.prompts, result.data!],
+            }));
+            return result.data || null;
+        }
+        return null;
     },
 }));
