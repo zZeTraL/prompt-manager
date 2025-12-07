@@ -1,0 +1,40 @@
+{
+    "id": "550e8400-e29b-41d4-a716-446655440000",
+    "userId": "user123",
+    "promptId": "prompt-ai-assistant",
+    "type": "prompt",
+
+    "title": "AI Code Assistant Prompt",
+    "description": "Prompt for helping developers write better code",
+    "tags": ["coding", "ai", "assistant"],
+
+    "version": "v1.2.0",
+    "content": "You are a helpful AI programming assistant...",
+
+    "versionHistory": [
+        {
+            "version": "v1.0.0",
+            "content": "You are an AI assistant...",
+            "changelog": "Initial version",
+            "createdAt": "2025-01-01T10:00:00Z",
+            "createdBy": "user123"
+        },
+        {
+            "version": "v1.1.0",
+            "content": "You are a helpful AI assistant...",
+            "changelog": "Added 'helpful' modifier",
+            "createdAt": "2025-02-01T10:00:00Z",
+            "createdBy": "user123"
+        }
+    ],
+
+    "status": "published",
+    "isLatest": true,
+
+    "createdAt": "2025-01-01T10:00:00Z",
+    "updatedAt": "2025-03-01T10:00:00Z",
+    "publishedAt": "2025-03-01T10:00:00Z",
+
+    "createdBy": "user123",
+    "updatedBy": "user123"
+}
