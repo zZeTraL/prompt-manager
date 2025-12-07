@@ -13,15 +13,15 @@ export default function HomeCard({ loading = false }: HomeCardProps) {
     // KPI 1: Total de prompts
     const totalPrompts = prompts.length;
 
-    // KPI 3: Prompts récents (7 derniers jours)
+    // KPI 2: Prompts récents (7 derniers jours)
     const recentPrompts = prompts.filter((p) => {
         const daysSinceCreation =
-            (Date.now() - new Date(p.createdAt).getTime()) /
+            (new Date().getTime() - new Date(p.createdAt).getTime()) /
             (1000 * 60 * 60 * 24);
         return daysSinceCreation <= 7;
     }).length;
 
-    // KPI 4: Dernier contributeur (basé sur createdBy et updatedAt)
+    // KPI 3: Dernier contributeur (basé sur createdBy et updatedAt)
     const sortedByDate = [...prompts].sort(
         (a, b) =>
             new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
