@@ -31,7 +31,13 @@
             "@/database/*": ["./src/database/*"],
 
             // data
-            "@/data/*": ["./src/data/*"]
+            "@/data/*": ["./src/data/*"],
+
+            // actions
+            "@/actions/*": ["./src/actions/*"],
+
+            // ui
+            "@/ui/*": ["./src/components/ui/*"]
         }
     },
     "include": [

@@ -5,16 +5,12 @@ const key = process.env.COSMOS_KEY;
 const databaseName = process.env.COSMOS_DATABASE_NAME;
 const containerName = process.env.COSMOS_CONTAINER_NAME;
 
+// Le client / base de données / conteneur Cosmos DB peuvent être nuls avant l'initialisation
 let client: CosmosClient | null = null;
 let database: Database | null = null;
 let container: Container | null = null;
 
-/**
- * Initialize Cosmos DB client with best practices
- * - Reuses singleton client instance
- * - Configured for Azure App Service deployment
- * - Logs diagnostics for performance monitoring
- */
+// Init Cosmos DB Client (Singleton)
 function initializeCosmosClient(): {
     client: CosmosClient;
     database: Database;
@@ -52,11 +48,7 @@ function initializeCosmosClient(): {
     };
 }
 
-/**
- * Get Cosmos DB container instance
- * Use this in your API routes and server-side code
- * Environment variables will be injected at runtime in Azure App Service
- */
+// Les variables d'environnement seront injectées au moment de l'exécution
 export function getCosmosContainer(): Container {
     const { container } = initializeCosmosClient();
     return container;
