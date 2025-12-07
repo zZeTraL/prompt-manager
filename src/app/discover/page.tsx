@@ -1,21 +1,10 @@
-import { getPrompts } from "@/actions/prompts";
+"use client";
+
 import { PromptGallery } from "@/components/ui/cards/PromptGallery";
+import { usePromptStore } from "@/src/store/PromptStore";
 
-export default async function DiscoverPage() {
-    const result = await getPrompts();
-
-    if (!result.success) {
-        return (
-            <div className="container mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-8">
-                    Découvrir les Prompts
-                </h1>
-                <div className="text-center text-red-500">
-                    Erreur lors du chargement des prompts
-                </div>
-            </div>
-        );
-    }
+export default function DiscoverPage() {
+    const prompts = usePromptStore((state) => state.prompts);
 
     return (
         <div className="container mx-auto px-4 py-8">
@@ -27,7 +16,7 @@ export default async function DiscoverPage() {
                     Explorez et découvrez tous les prompts disponibles
                 </p>
             </div>
-            <PromptGallery prompts={result.data || []} />
+            <PromptGallery prompts={prompts || []} />
         </div>
     );
 }
