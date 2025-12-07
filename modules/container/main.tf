@@ -1,3 +1,4 @@
+# Import des variables globales
 variable "project_name" {}
 variable "suffix" {}
 variable "rg_name" {}
@@ -9,9 +10,10 @@ resource "azurerm_container_registry" "acr" {
   location            = var.location
   sku                 = "Basic"
   # Active l'admin pour simplifier le login
-  admin_enabled       = true
+  admin_enabled = true
 
   tags = {
+    Environment = var.suffix
     Project     = var.project_name
     ManagedBy   = "Terraform"
   }

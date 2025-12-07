@@ -38,8 +38,10 @@ resource "azurerm_linux_web_app" "app" {
     always_on = false
 
     application_stack {
-      docker_image_name   = "prompt-manager:latest"
-      docker_registry_url = "https://${var.acr_login_server}"
+      docker_image_name        = "prompt-manager:latest"
+      docker_registry_url      = "https://${var.acr_login_server}"
+      docker_registry_username = var.acr_admin_username
+      docker_registry_password = var.acr_admin_password
     }
   }
 

@@ -67,5 +67,5 @@ module "app_service" {
   cosmos_database_name  = module.database.database_name
   cosmos_container_name = module.database.container_name
 
-  depends_on = [module.fetch, module.database]
+  depends_on = [module.resource, module.container, module.database, module.fetch]
 }
