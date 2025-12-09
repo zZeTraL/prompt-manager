@@ -3,9 +3,13 @@ variable "suffix" {}
 variable "rg_name" {}
 variable "location" {}
 
+resource "random_id" "service_id" {
+  byte_length = 8
+}
+
 # Cosmos DB Account avec API SQL (Core)
 resource "azurerm_cosmosdb_account" "db" {
-  name                = "cosmos-${var.project_name}-${var.suffix}"
+  name                = "cosmos-${var.project_name}-${var.suffix}-${random_id.service_id.hex}"
   location            = var.location
   resource_group_name = var.rg_name
   offer_type          = "Standard"
