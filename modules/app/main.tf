@@ -12,9 +12,13 @@ variable "cosmos_primary_key" {}
 variable "cosmos_database_name" {}
 variable "cosmos_container_name" {}
 
+resource "random_id" "service_id" {
+  byte_length = 8
+}
+
 # Service Plan
 resource "azurerm_service_plan" "plan" {
-  name                = "asp-${var.project_name}-${var.suffix}"
+  name                = "asp-${var.project_name}-${var.suffix}${random_id.service_id.hex}"
   location            = var.location
   resource_group_name = var.rg_name
   os_type             = "Linux"
@@ -29,7 +33,7 @@ resource "azurerm_service_plan" "plan" {
 
 # App Service
 resource "azurerm_linux_web_app" "app" {
-  name                = "app-${var.project_name}-${var.suffix}"
+  name                = "app-${var.project_name}-${var.suffix}-${random_id.service_id.hex}"
   location            = var.location
   resource_group_name = var.rg_name
   service_plan_id     = azurerm_service_plan.plan.id
