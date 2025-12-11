@@ -3,7 +3,6 @@
 import {
     Sidebar,
     SidebarContent,
-    SidebarFooter,
     SidebarGroup,
     SidebarGroupContent,
     SidebarGroupLabel,
@@ -12,10 +11,21 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/ui/sidebar";
-import { FileText, Home, Search, Settings } from "lucide-react";
+import { FileText, Home, Plus, Search } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import styled from "styled-components";
+
+const StyledSidebarMenuButton = styled(SidebarMenuButton)<{
+    $current?: boolean;
+}>`
+    background-color: ${(props) => (props.$current ? "var(--accent)" : null)};
+`;
 
 export default function SidebarApp() {
+    // Retrieve current page
+    const currentPath = usePathname();
+
     return (
         <Sidebar>
             <SidebarHeader className="p-4">
@@ -31,46 +41,42 @@ export default function SidebarApp() {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <StyledSidebarMenuButton
+                                    $current={currentPath == "/"}
+                                    asChild
+                                >
                                     <Link href="/">
                                         <Home className="h-4 w-4" />
                                         <span>Accueil</span>
                                     </Link>
-                                </SidebarMenuButton>
+                                </StyledSidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <StyledSidebarMenuButton
+                                    $current={currentPath === "/discover"}
+                                    asChild
+                                >
                                     <Link href="/discover">
                                         <Search className="h-4 w-4" />
                                         <span>Découvrir</span>
                                     </Link>
-                                </SidebarMenuButton>
+                                </StyledSidebarMenuButton>
                             </SidebarMenuItem>
                             <SidebarMenuItem>
-                                <SidebarMenuButton asChild>
+                                <StyledSidebarMenuButton
+                                    $current={currentPath === "/create"}
+                                    asChild
+                                >
                                     <Link href="/create">
-                                        <Search className="h-4 w-4" />
+                                        <Plus className="h-4 w-4" />
                                         <span>Créer un prompt</span>
                                     </Link>
-                                </SidebarMenuButton>
+                                </StyledSidebarMenuButton>
                             </SidebarMenuItem>
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
-
-            <SidebarFooter className="p-4">
-                <SidebarMenu>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton asChild>
-                            <Link href="/settings">
-                                <Settings className="h-4 w-4" />
-                                <span>Paramètres</span>
-                            </Link>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-            </SidebarFooter>
         </Sidebar>
     );
 }

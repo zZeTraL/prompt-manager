@@ -1,6 +1,18 @@
 "use client";
 
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
     Card,
     CardContent,
@@ -19,18 +31,41 @@ import {
     FileText,
     GitBranch,
     History,
+    Trash2,
     User,
 } from "lucide-react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function PromptPage() {
     // Retrieve the prompt ID from the URL parameters
     const params = useParams();
+    const router = useRouter();
     const [isLoading, setIsLoading] = useState(true);
     const [prompt, setPrompt] = useState<Prompt | null>(null);
+    const [isDeleting, setIsDeleting] = useState(false);
 
     const fetchPromptById = usePromptStore((state) => state.fetchPromptById);
+    const deletePrompt = usePromptStore((state) => state.deletePrompt);
+
+    const handleDelete = async () => {
+        if (!prompt) return;
+
+        setIsDeleting(true);
+        try {
+            const success = await deletePrompt(prompt.id);
+            if (success) {
+                router.push("/discover");
+            } else {
+                alert("Erreur lors de la suppression du prompt");
+                setIsDeleting(false);
+            }
+        } catch (error) {
+            console.error("Error deleting prompt:", error);
+            alert("Erreur lors de la suppression du prompt");
+            setIsDeleting(false);
+        }
+    };
 
     useEffect(() => {
         const id = params.id?.toString();
@@ -119,9 +154,51 @@ export default function PromptPage() {
                             </p>
                         )}
                     </div>
-                    <Badge className={getStatusColor(prompt.status)}>
-                        {prompt.status.toUpperCase()}
-                    </Badge>
+                    <div className="flex items-center gap-3">
+                        <Badge className={getStatusColor(prompt.status)}>
+                            {prompt.status.toUpperCase()}
+                        </Badge>
+                        <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                                <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    disabled={isDeleting}
+                                >
+                                    <Trash2 className="w-4 h-4 mr-2" />
+                                    {isDeleting
+                                        ? "Suppression..."
+                                        : "Supprimer"}
+                                </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                                <AlertDialogHeader>
+                                    <AlertDialogTitle>
+                                        Êtes-vous absolument sûr ?
+                                    </AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                        Cette action est irréversible. Le prompt
+                                        &quot;{prompt.title}&quot; sera
+                                        définitivement supprimé.
+                                    </AlertDialogDescription>
+                                </AlertDialogHeader>
+                                <AlertDialogFooter>
+                                    <AlertDialogCancel disabled={isDeleting}>
+                                        Annuler
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                        onClick={handleDelete}
+                                        disabled={isDeleting}
+                                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                    >
+                                        {isDeleting
+                                            ? "Suppression..."
+                                            : "Supprimer"}
+                                    </AlertDialogAction>
+                                </AlertDialogFooter>
+                            </AlertDialogContent>
+                        </AlertDialog>
+                    </div>
                 </div>
 
                 {/* Tags */}

@@ -52,4 +52,9 @@ async function createPrompt(prompt: Prompt): Promise<Prompt> {
     return resource;
 }
 
-export { createPrompt, fetchAllPrompts, fetchPromptById };
+async function deletePrompt(id: string): Promise<void> {
+    const container = getCosmosContainer();
+    await container.item(id, id).delete();
+}
+
+export { createPrompt, deletePrompt, fetchAllPrompts, fetchPromptById };

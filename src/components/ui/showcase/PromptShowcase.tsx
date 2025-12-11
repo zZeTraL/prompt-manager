@@ -1,8 +1,9 @@
 import { usePromptStore } from "@/store/PromptStore";
+import { Card, CardContent } from "@/ui/card";
+import { PromptCard } from "@/ui/cards/PromptCard";
 import { FileText, PlusCircle } from "lucide-react";
+import Link from "next/link";
 import { Button } from "../button";
-import { Card, CardContent } from "../card";
-import { PromptCard } from "../cards/PromptCard";
 
 interface PromptShowcaseCardProps {
     loading?: boolean;
@@ -37,8 +38,10 @@ export default function PromptShowcaseCard({
                             votre bibliothèque AI
                         </p>
                         <Button>
-                            <PlusCircle className="mr-2 h-4 w-4" />
-                            Créer mon premier prompt
+                            <Link href="/create" className="flex items-center">
+                                <PlusCircle className="mr-2 h-4 w-4" />
+                                Créer mon premier prompt
+                            </Link>
                         </Button>
                     </CardContent>
                 </Card>

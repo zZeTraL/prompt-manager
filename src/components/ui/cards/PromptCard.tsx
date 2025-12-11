@@ -57,7 +57,7 @@ export function PromptCard({ prompt, loading = false }: PromptCardProps) {
     }
 
     return (
-        <Card className="hover:shadow-lg transition-shadow duration-200">
+        <Card className="hover:shadow-lg transition-shadow duration-200 cursor-pointer h-full">
             <CardHeader>
                 <div className="flex items-start justify-between">
                     <div className="flex-1">

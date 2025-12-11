@@ -1,4 +1,9 @@
-import { createNewPrompt, getPromptById, getPrompts } from "@/actions/prompts";
+import {
+    createNewPrompt,
+    deletePrompt as deletePromptAction,
+    getPromptById,
+    getPrompts,
+} from "@/actions/prompts";
 import { Prompt } from "@/types/prompt";
 import { create } from "zustand";
 
@@ -8,13 +13,13 @@ type PromptStore = {
     fetchAllPrompts: () => Promise<void>;
     fetchPromptById: (id: string) => Promise<Prompt | null>;
     createNewPrompt: (promptData: Prompt) => Promise<Prompt | null>;
+    deletePrompt: (id: string) => Promise<boolean>;
 };
 
 export const usePromptStore = create<PromptStore>((set) => ({
     prompts: [],
     init: async () => {
         if (typeof window === "undefined") return false;
-        // Use Server Action instead of API route
         const result = await getPrompts();
         if (result.success) {
             console.log("Initialized prompts:", result.data);
@@ -43,12 +48,22 @@ export const usePromptStore = create<PromptStore>((set) => ({
     createNewPrompt: async (promptData: Prompt) => {
         const result = await createNewPrompt(promptData);
         if (result.success) {
-            // Update the prompts list in the store
             set((state) => ({
                 prompts: [...state.prompts, result.data!],
             }));
             return result.data || null;
         }
         return null;
+    },
+
+    deletePrompt: async (id: string) => {
+        const result = await deletePromptAction(id);
+        if (result.success) {
+            set((state) => ({
+                prompts: state.prompts.filter((prompt) => prompt.id !== id),
+            }));
+            return true;
+        }
+        return false;
     },
 }));

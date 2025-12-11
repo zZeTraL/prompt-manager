@@ -97,7 +97,6 @@ export default function CreatePromptPage() {
             const newPromptId = crypto.randomUUID();
             const now = new Date().toISOString();
 
-            // Create prompt object matching the Prompt type
             const promptData: Prompt = {
                 id: newPromptId,
                 userId: formData.userId,
@@ -184,7 +183,7 @@ export default function CreatePromptPage() {
                             Identifiants
                         </CardTitle>
                         <CardDescription>
-                            Informations d&apos;identification pour le système
+                            Informations d'identification pour le système
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
@@ -194,7 +193,7 @@ export default function CreatePromptPage() {
                                     htmlFor="userId"
                                     className="text-sm font-medium"
                                 >
-                                    User ID{" "}
+                                    Identifiant deutilisateur{" "}
                                     <span className="text-destructive">*</span>
                                 </label>
                                 <Input
@@ -215,7 +214,7 @@ export default function CreatePromptPage() {
                                     htmlFor="promptId"
                                     className="text-sm font-medium"
                                 >
-                                    Prompt ID{" "}
+                                    Identifiant du prompt{" "}
                                     <span className="text-destructive">*</span>
                                 </label>
                                 <Input
@@ -261,10 +260,10 @@ export default function CreatePromptPage() {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <FileText className="w-5 h-5" />
-                            Informations de base
+                            Informations
                         </CardTitle>
                         <CardDescription>
-                            Titre, description et métadonnées du prompt
+                            Titre, description, version et statut du prompt.
                         </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">

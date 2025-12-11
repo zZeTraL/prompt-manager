@@ -27,8 +27,8 @@ export default function Home() {
                             Bienvenue dans Prompt Manager
                         </h1>
                         <p className="text-muted-foreground text-lg">
-                            Gérez, créez et partagez vos prompts AI de manière
-                            professionnelle
+                            Gérez, créez et partagez vos prompts IA de manière
+                            professionnelle.
                         </p>
                     </div>
 

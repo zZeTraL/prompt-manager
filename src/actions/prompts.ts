@@ -2,6 +2,7 @@
 
 import {
     createPrompt,
+    deletePrompt as deletePromptFromDB,
     fetchAllPrompts,
     fetchPromptById,
 } from "@/database/function";
@@ -37,5 +38,15 @@ export async function createNewPrompt(promptData: Prompt) {
     } catch (error) {
         console.error("Error creating prompt:", error);
         return { success: false, error: "Failed to create prompt" };
+    }
+}
+
+export async function deletePrompt(id: string) {
+    try {
+        await deletePromptFromDB(id);
+        return { success: true };
+    } catch (error) {
+        console.error("Error deleting prompt:", error);
+        return { success: false, error: "Failed to delete prompt" };
     }
 }
