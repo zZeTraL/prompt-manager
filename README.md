@@ -30,6 +30,13 @@ Avant de commencer, assurez-vous d'avoir :
    - Azure Cosmos DB
    - Azure App Service
 
+
+5. **Cloner** la branche ```terraform``` du repo
+
+   ```git
+   git clone -b terraform https://github.com/zZeTraL/prompt-manager.git
+   ```
+
 ## 🏗️ Architecture Déployée
 
 L'infrastructure déploie les composants suivants dans l'ordre :
