@@ -47,6 +47,8 @@ L'infrastructure déploie les composants suivants dans l'ordre :
 4. **Module Fetch** - Build et push des images Docker depuis GitHub
 5. **Azure App Service** - Hébergement de l'application web
 
+Note: CI/CD appliqué lors du développement.
+
 ## 🚀 Étapes de Déploiement
 
 ### Étape 1 : Authentification Azure
