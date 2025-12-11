@@ -68,49 +68,40 @@ Créez ou modifiez le fichier `terraform.tfvars` avec vos valeurs :
 
 ```hcl
 project_name          = "prompt-manager"
-suffix                = "prod"  # ou "dev", "staging", etc.
+suffix                = "lbtp"
 rg_name               = "rg-prompt-manager-prod"
-location              = "westeurope"  # ou autre région Azure
-github_repository_url = "https://github.com/VOTRE_ORG/VOTRE_REPO"
-github_app_branch     = "main"  # ou "master", "develop", etc.
+location              = "westeurope"  # sélectionner la région vous souhaitez
 ```
 
 **Variables disponibles :**
 
-- `project_name` : Nom de base pour toutes les ressources
-- `suffix` : Suffixe pour différencier les environnements
-- `rg_name` : Nom du Resource Group Azure
+- `project_name` : Nom du projet
+- `suffix` : Suffixe ajouté à la fin du nom de projet
+- `rg_name` : Nom du groupe de ressources Azure
 - `location` : Région Azure (ex: westeurope, eastus, francecentral)
-- `github_repository_url` : URL complète de votre repository GitHub
-- `github_app_branch` : Branche à déployer
+- `github_repository_url` : URL complète du repository Github qui contient l'application web à déployer
+- `github_app_branch` : Branche cible lors du clone
 
 ### Étape 3 : Initialisation Terraform
 
-Initialisez Terraform pour télécharger les providers nécessaires :
+Initialisez Terraform afin de télécharger les providers nécessaires :
 
 ```powershell
 terraform init
 ```
 
-Cette commande :
+Cette commande va :
+- Télécharger le provider Azure (`azurerm`)
+- Initialiser le backend Terraform
+- Préparer les modules locaux
 
-- Télécharge le provider Azure (`azurerm`)
-- Initialise le backend Terraform
-- Prépare les modules locaux
-
-### Étape 4 : Planification du Déploiement
+### Étape 4 : Planification du déploiement
 
 Visualisez les ressources qui seront créées :
 
 ```powershell
 terraform plan
 ```
-
-Examinez attentivement :
-
-- Les ressources à créer (indiquées par `+`)
-- Les noms générés pour chaque ressource
-- Les dépendances entre modules
 
 ### Étape 5 : Application du Déploiement
 
@@ -122,15 +113,17 @@ terraform apply
 
 Tapez `yes` pour confirmer lorsque demandé.
 
-**⏱️ Durée estimée :** 15-20 minutes
+**⏱️ Durée estimée :** 5-12 minutes
 
 **Ordre d'exécution automatique :**
 
-1. ✅ Création du Resource Group
-2. ✅ Création de l'Azure Container Registry
-3. ✅ Création de Cosmos DB (base de données + conteneur)
-4. ✅ Build et push des images Docker depuis GitHub
-5. ✅ Déploiement de l'App Service avec configuration
+1. Création du Resource Group
+2. Création de l'Azure Container Registry
+3. Création de Cosmos DB (base de données + conteneur)
+4. Clone du repo Github de l'application.
+5. Build de l'image Docker de l'application
+6. Push de l'image sur l'ACR (Azure Container Registry)
+7. Déploiement de l'App Service avec configuration
 
 ### Étape 6 : Vérification du Déploiement
 
@@ -141,16 +134,9 @@ Outputs:
 app_url = "https://app-prompt-manager-prod.azurewebsites.net"
 ```
 
-Testez l'accès à votre application :
-
-```powershell
-# Ouvrir dans le navigateur
-start "https://app-prompt-manager-prod.azurewebsites.net"
-```
-
 ## 📝 Variables d'Environnement Injectées
 
-L'App Service reçoit automatiquement ces variables :
+L'App Service reçoit automatiquement ces variables par injection :
 
 - `COSMOS_ENDPOINT` : URL de votre Cosmos DB
 - `COSMOS_KEY` : Clé primaire Cosmos DB
