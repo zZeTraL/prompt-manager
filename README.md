@@ -33,8 +33,8 @@ Avant de commencer, assurez-vous d'avoir :
 
 5. **Cloner** la branche ```terraform``` du repo
 
-   ```powershell
-   docker --version
+   ```git
+   git clone -b terraform https://github.com/zZeTraL/prompt-manager.git
    ```
 
 ## 🏗️ Architecture Déployée
