@@ -91,7 +91,7 @@ location              = "westeurope"  # sélectionner la région vous souhaitez
 - `github_repository_url` : URL complète du repository Github qui contient l'application web à déployer
 - `github_app_branch` : Branche cible lors du clone
 
-### Étape 3 : Initialisation Terraform
+### Étape 3 : Initialisation de Terraform
 
 Initialisez Terraform afin de télécharger les providers nécessaires :
 
@@ -112,7 +112,7 @@ Visualisez les ressources qui seront créées :
 terraform plan
 ```
 
-### Étape 5 : Application du Déploiement
+### Étape 5 : Déploiement
 
 Déployez l'infrastructure :
 
@@ -122,13 +122,13 @@ terraform apply
 
 Tapez `yes` pour confirmer lorsque demandé.
 
-**⏱️ Durée estimée :** 5-12 minutes
+**⏱️ Durée estimée :** 8-10 minutes
 
-**Ordre d'exécution automatique :**
+**Ordre d'exécution des actions (toutes les actions se font automatiquement) :**
 
 1. Création du Resource Group
 2. Création de l'Azure Container Registry
-3. Création de Cosmos DB (base de données + conteneur)
+3. Création de Cosmos DB (base de données + conteneur (une table grosse-omodo))
 4. Clone du repo Github de l'application.
 5. Build de l'image Docker de l'application
 6. Push de l'image sur l'ACR (Azure Container Registry)
@@ -140,14 +140,14 @@ Une fois le déploiement terminé, Terraform affiche l'URL de votre application 
 
 ```
 Outputs:
-app_url = "https://app-prompt-manager-prod.azurewebsites.net"
+app_url = "https://app-promptversioning-lbtp-<UUID>.azurewebsites.net/"
 ```
 
 ## 📝 Variables d'Environnement Injectées
 
-L'App Service reçoit automatiquement ces variables par injection :
+L'App Service reçoit automatiquement ces variables par injection lors du déploiement :
 
-- `COSMOS_ENDPOINT` : URL de votre Cosmos DB
+- `COSMOS_ENDPOINT` : Endpoint Cosmos DB
 - `COSMOS_KEY` : Clé primaire Cosmos DB
 - `COSMOS_DATABASE_NAME` : Nom de la base de données
 - `COSMOS_CONTAINER_NAME` : Nom du conteneur
