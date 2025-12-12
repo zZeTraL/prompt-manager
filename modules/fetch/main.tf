@@ -1,16 +1,13 @@
 #
 #
 #
-# Merci Thomas (Sys. Admin chez Mobivia et mon collègue) pour l'aide précieuse pour m'avoir aidé à rédiger ce code !
+# Merci Thomas (Sys. Admin chez Mobivia, mon collègue) pour l'aide précieuse pour m'avoir aidé à rédiger ce code !
 # et également pour l'aide dans la compréhension avancée de Terraform :)
 #
 # Get-Content "$env:TEMP\terraform-docker-build.log"
 # Permet de lire le fichier de log généré lors de l'exécution des commandes Docker
-#
-#
-#
 
-# Variables ACR
+# Variables ACR (Azure Registry Container)
 variable "acr_login_server" {}
 variable "acr_name" {}
 variable "acr_admin_username" {}
@@ -36,7 +33,7 @@ resource "null_resource" "docker_build_push" {
     command     = <<EOT
       $ErrorActionPreference = "Continue"
       $logFile = "$env:TEMP\terraform-docker-build.log"
-      
+
       # Connexion à l'ACR
       "$(Get-Date) - Logging into Azure Container Registry..." | Tee-Object -FilePath $logFile -Append
       $loginResult = az acr login --name ${var.acr_name} --username ${var.acr_admin_username} --password "${var.acr_admin_password}" 2>&1
@@ -49,7 +46,7 @@ resource "null_resource" "docker_build_push" {
       # On crée un dossier temporaire
       $TEMP_DIR = New-Item -ItemType Directory -Path $env:TEMP -Name "terraform-$(Get-Random)" -Force
       "$(Get-Date) - Created temporary directory at $($TEMP_DIR.FullName)" | Tee-Object -FilePath $logFile -Append
-      
+
       # On clone notre repo
       "$(Get-Date) - Cloning repository from ${var.github_repository_url}..." | Tee-Object -FilePath $logFile -Append
       $cloneResult = git clone --branch ${var.github_app_branch} ${var.github_repository_url} $TEMP_DIR.FullName 2>&1
@@ -59,7 +56,7 @@ resource "null_resource" "docker_build_push" {
         Remove-Item -Recurse -Force $TEMP_DIR -ErrorAction SilentlyContinue
         exit 1
       }
-      
+
       # On vérifie si le Dockerfile existe à la racine
       $dockerfilePath = Join-Path $TEMP_DIR.FullName "Dockerfile"
       if (-Not (Test-Path $dockerfilePath)) {
@@ -68,7 +65,7 @@ resource "null_resource" "docker_build_push" {
         exit 1
       }
       "$(Get-Date) - Dockerfile found at $dockerfilePath" | Tee-Object -FilePath $logFile -Append
-      
+
       # On build l'image Docker
       "$(Get-Date) - Building Docker image..." | Tee-Object -FilePath $logFile -Append
       $buildResult = docker build -t ${var.acr_login_server}/prompt-manager:latest $TEMP_DIR.FullName 2>&1
@@ -92,7 +89,7 @@ resource "null_resource" "docker_build_push" {
       # Nettoyage du dossier temporaire
       Remove-Item -Recurse -Force $TEMP_DIR
       "$(Get-Date) - Successfully completed! Cleaned up temporary directory." | Tee-Object -FilePath $logFile -Append
-      
+
       Write-Host "======================================"
       Write-Host "SUCCESS! Log file: $logFile"
       Write-Host "======================================"

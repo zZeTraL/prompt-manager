@@ -7,7 +7,7 @@ resource "random_id" "service_id" {
   byte_length = 4
 }
 
-# Cosmos DB Account avec API SQL (Core)
+# Compte CosmosDB (Base SQL)
 resource "azurerm_cosmosdb_account" "db" {
   name                = "cosmos-${var.project_name}-${random_id.service_id.hex}"
   location            = var.location

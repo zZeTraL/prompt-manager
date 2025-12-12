@@ -60,7 +60,7 @@ module "app_service" {
   acr_admin_username = module.container.acr_admin_username
   acr_admin_password = module.container.acr_admin_password
 
-  # Informations Cosmos DB pour que l'application puisse s'y connecter
+  # Informations Cosmos DB pour que l'application puisse s'y connecte
   # Surtout utilie pour l'injection des variables d'environnement pas besoin de .env :)
   cosmos_endpoint       = module.database.cosmos_endpoint
   cosmos_primary_key    = module.database.cosmos_primary_key

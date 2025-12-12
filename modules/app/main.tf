@@ -12,6 +12,7 @@ variable "cosmos_primary_key" {}
 variable "cosmos_database_name" {}
 variable "cosmos_container_name" {}
 
+# Génération aléatoire
 resource "random_id" "service_id" {
   byte_length = 8
 }
@@ -31,7 +32,7 @@ resource "azurerm_service_plan" "plan" {
   }
 }
 
-# App Service
+# App Service (Notre site web)
 resource "azurerm_linux_web_app" "app" {
   name                = "app-${var.project_name}-${var.suffix}-${random_id.service_id.hex}"
   location            = var.location
@@ -50,22 +51,22 @@ resource "azurerm_linux_web_app" "app" {
   }
 
   app_settings = {
-    # Docker
+    # Configuration Docker
     DOCKER_REGISTRY_SERVER_URL      = "https://${var.acr_login_server}"
     DOCKER_REGISTRY_SERVER_USERNAME = var.acr_admin_username
     DOCKER_REGISTRY_SERVER_PASSWORD = var.acr_admin_password
     WEBSITES_PORT                   = "3000"
     DOCKER_ENABLE_CI                = "true"
 
-    # Cosmos DB uniquement
+    # Configuration des variables
     COSMOS_ENDPOINT       = var.cosmos_endpoint
     COSMOS_KEY            = var.cosmos_primary_key
     COSMOS_DATABASE_NAME  = var.cosmos_database_name
     COSMOS_CONTAINER_NAME = var.cosmos_container_name
 
-    # App
+    # Configurations des variables NextJS
     NODE_ENV            = "production"
-    NEXT_PUBLIC_API_URL = "https://app-${var.project_name}-${var.suffix}.azurewebsites.net"
+    NEXT_PUBLIC_API_URL = "https://app-${var.project_name}-${var.suffix}-${random_id.service_id.hex}.azurewebsites.net"
   }
 
   tags = {
